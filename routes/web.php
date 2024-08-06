@@ -35,6 +35,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/posts', [\App\Http\Controllers\PostController::class, 'index'])->name('post.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/posts', [\App\Http\Controllers\PostController::class, 'index'])->name('post.index');
+    Route::get('/posts/create', [\App\Http\Controllers\PostController::class, 'create'])->name('post.create');
+    Route::post('/posts', [\App\Http\Controllers\PostController::class, 'store'])->name('post.store');
+    Route::get('/posts/{post}', [\App\Http\Controllers\PostController::class, 'show'])->name('post.show');
+    Route::get('/posts/{post}/edit', [\App\Http\Controllers\PostController::class, 'edit'])->name('post.edit');
+    Route::patch('/posts/{post}', [\App\Http\Controllers\PostController::class, 'update'])->name('post.update');
+    Route::delete('/posts/{post}', [\App\Http\Controllers\PostController::class, 'delete'])->name('post.delete');
+});
 
 require __DIR__.'/auth.php';
